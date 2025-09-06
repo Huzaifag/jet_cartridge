@@ -24,6 +24,6 @@ jobs:
           server: ftpupload.net
           username: if0_39876433
           password: Ati2025ya
-          server-dir: /https://atiya-shoukat.free.nf/htdocs/  # For addon domains
+          server-dir: /htdocs/  # For addon domains
           timeout: 86400000
           log-level: standard
