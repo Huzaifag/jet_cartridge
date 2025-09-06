@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Verification - JetCartridge</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="seller-styles.css">
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar seller-nav">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">JetCartridge</a>
+            <div class="d-flex">
+                <a class="nav-link" href="dashboard.html">Dashboard</a>
+                <a class="nav-link" href="kyc-verification.html">KYC</a>
+                <a class="nav-link" href="product-management.html">Products</a>
+                <a class="nav-link" href="rfq-marketplace.html">RFQs</a>
+                <a class="nav-link" href="fulfillment-shipping.html">Fulfillment</a>
+                <a class="nav-link" href="buyer-engagement.html">Buyers</a>
+                <a class="nav-link" href="promotions.html">Promotions</a>
+                <a class="nav-link" href="proof-shipment.html">Shipment</a>
+                <a class="nav-link" href="analytics.html">Analytics</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">KYC & Business Verification</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h5 class="mb-4">Upload Business Documents</h5>
+                            
+                            <!-- PAN Card Upload -->
+                            <div class="mb-4">
+                                <label class="form-label">Upload PAN Card</label>
+                                <div class="upload-zone">
+                                    <i class="fas fa-cloud-upload-alt mb-2"></i>
+                                    <p class="mb-2">Drag and drop your file here or</p>
+                                    <input type="file" class="form-control" accept="image/*,.pdf">
+                                    <small class="text-muted">Supported formats: JPG, PNG, PDF (Max size: 5MB)</small>
+                                </div>
+                            </div>
+
+                            <!-- GST Certificate Upload -->
+                            <div class="mb-4">
+                                <label class="form-label">Upload GST Certificate</label>
+                                <div class="upload-zone">
+                                    <i class="fas fa-cloud-upload-alt mb-2"></i>
+                                    <p class="mb-2">Drag and drop your file here or</p>
+                                    <input type="file" class="form-control" accept="image/*,.pdf">
+                                    <small class="text-muted">Supported formats: JPG, PNG, PDF (Max size: 5MB)</small>
+                                </div>
+                            </div>
+
+                            <!-- Business Registration Certificate -->
+                            <div class="mb-4">
+                                <label class="form-label">Upload Business Registration Certificate</label>
+                                <div class="upload-zone">
+                                    <i class="fas fa-cloud-upload-alt mb-2"></i>
+                                    <p class="mb-2">Drag and drop your file here or</p>
+                                    <input type="file" class="form-control" accept="image/*,.pdf">
+                                    <small class="text-muted">Supported formats: JPG, PNG, PDF (Max size: 5MB)</small>
+                                </div>
+                            </div>
+
+                            <!-- Business Details -->
+                            <h5 class="mb-4 mt-5">Business Details</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Business Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Business Type</label>
+                                    <select class="form-select" required>
+                                        <option value="">Select Business Type</option>
+                                        <option value="proprietorship">Proprietorship</option>
+                                        <option value="partnership">Partnership</option>
+                                        <option value="pvt_ltd">Private Limited</option>
+                                        <option value="ltd">Limited Company</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">PAN Number</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">GST Number</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Business Address</label>
+                                <textarea class="form-control" rows="3" required></textarea>
+                            </div>
+
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-primary">Complete KYC</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+</body>
+</html> 

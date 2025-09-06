@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Dashboard - Jet Cartridge</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <span class="me-2">Welcome, Manufacturer!</span>
+                    <span class="badge bg-accent me-3">Premium</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="#"><i class="far fa-bell"></i><span class="badge bg-danger">3</span></a>
+                    <a href="#"><i class="far fa-envelope"></i><span class="badge bg-primary">5</span></a>
+                    <a href="#"><i class="far fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark alibaba-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../images/logo.png" alt="Logo" height="32" class="me-2">
+                Jet Cartridge
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#"><i class="fas fa-th-large me-2"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-box me-2"></i>Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-chart-line me-2"></i>Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-truck me-2"></i>Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <!-- Overview Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Orders</h6>
+                                <h3 class="mb-0">1,284</h3>
+                                <small class="text-success">+12.5% <i class="fas fa-arrow-up"></i></small>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-shopping-cart text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Revenue</h6>
+                                <h3 class="mb-0">$84,686</h3>
+                                <small class="text-success">+8.3% <i class="fas fa-arrow-up"></i></small>
+                            </div>
+                            <div class="bg-success bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-dollar-sign text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Products</h6>
+                                <h3 class="mb-0">384</h3>
+                                <small class="text-success">+5.2% <i class="fas fa-arrow-up"></i></small>
+                            </div>
+                            <div class="bg-info bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-box text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Customer Rating</h6>
+                                <h3 class="mb-0">4.8/5</h3>
+                                <small class="text-success">+0.3 <i class="fas fa-arrow-up"></i></small>
+                            </div>
+                            <div class="bg-warning bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Sales Chart -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Sales Analytics</h5>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-secondary btn-sm active">Week</button>
+                                <button class="btn btn-outline-secondary btn-sm">Month</button>
+                                <button class="btn btn-outline-secondary btn-sm">Year</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="salesChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Orders</h5>
+                            <a href="#" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Order #12345</h6>
+                                        <small class="text-muted">Premium i9 Laptop</small>
+                                    </div>
+                                    <span class="badge bg-success">Completed</span>
+                                </div>
+                            </div>
+                            <div class="list-group-item p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Order #12344</h6>
+                                        <small class="text-muted">Gaming Laptop 17"</small>
+                                    </div>
+                                    <span class="badge bg-warning">Processing</span>
+                                </div>
+                            </div>
+                            <div class="list-group-item p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Order #12343</h6>
+                                        <small class="text-muted">Wireless Mouse</small>
+                                    </div>
+                                    <span class="badge bg-success">Completed</span>
+                                </div>
+                            </div>
+                            <div class="list-group-item p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Order #12342</h6>
+                                        <small class="text-muted">Student Chromebook</small>
+                                    </div>
+                                    <span class="badge bg-danger">Cancelled</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Products -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Top Products</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Sales</th>
+                                        <th>Revenue</th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Premium i9 Laptop</td>
+                                        <td>245</td>
+                                        <td>$318,255</td>
+                                        <td>4.8 <i class="fas fa-star text-warning"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gaming Laptop 17"</td>
+                                        <td>189</td>
+                                        <td>$283,311</td>
+                                        <td>4.7 <i class="fas fa-star text-warning"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wireless Mouse</td>
+                                        <td>452</td>
+                                        <td>$11,300</td>
+                                        <td>4.5 <i class="fas fa-star text-warning"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Student Chromebook</td>
+                                        <td>156</td>
+                                        <td>$109,044</td>
+                                        <td>4.6 <i class="fas fa-star text-warning"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Feedback -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Recent Customer Feedback</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item p-3">
+                                <div class="d-flex">
+                                    <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="User">
+                                    <div>
+                                        <h6 class="mb-1">John Doe</h6>
+                                        <div class="mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                        </div>
+                                        <p class="mb-1">Great product! The laptop exceeds my expectations.</p>
+                                        <small class="text-muted">2 hours ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item p-3">
+                                <div class="d-flex">
+                                    <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="User">
+                                    <div>
+                                        <h6 class="mb-1">Jane Smith</h6>
+                                        <div class="mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </div>
+                                        <p class="mb-1">Good performance but battery life could be better.</p>
+                                        <small class="text-muted">1 day ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item p-3">
+                                <div class="d-flex">
+                                    <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="User">
+                                    <div>
+                                        <h6 class="mb-1">Mike Johnson</h6>
+                                        <div class="mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        </div>
+                                        <p class="mb-1">Excellent build quality and customer service.</p>
+                                        <small class="text-muted">2 days ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Chart JS -->
+    <script>
+        // Sales Chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: true,
+                    borderColor: '#4a90e2',
+                    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: true,
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
