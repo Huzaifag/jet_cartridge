@@ -47,5 +47,46 @@
         </li>
         @endif
 
+
+        @if($employee->position === 'Sales Manager')
+        <li class="nav-item">
+            <a href="{{ route('seller.employees.sales_man.products.index') }}"
+                class="nav-link {{ request()->routeIs('seller.employees.sales_man.products.index') ? 'active' : '' }}">
+                <i class="fas fa-box"></i>
+                Products
+            </a>
+        </li>
+        @endif
+
+        @if($employee->position === 'Sales Manager')
+        <li class="nav-item">
+            <a href="{{ route('seller.employees.sales_man.orders') }}"
+                class="nav-link {{ request()->routeIs('seller.employees.sales_man.orders') ? 'active' : '' }}">
+                <i class="fas fa-file-invoice"></i>
+                Orders
+            </a>
+        </li>
+        @endif
+
+        @if($employee->position === 'Sales Manager')
+        <li class="nav-item">
+            <a href="{{ route('seller.employees.sales_man.orders.bulk') }}"
+                class="nav-link {{ request()->routeIs('seller.employees.sales_man.orders.bulk') ? 'active' : '' }}">
+                <i class="fas fa-boxes"></i>
+                Bulk Orders
+            </a>
+        </li>
+        @endif
+
+        @if($employee->position === 'Sales Manager')
+        <li class="nav-item">
+            <a href="{{ route('seller.employees.sales_man.leads') }}"
+                class="nav-link {{ request()->routeIs('seller.employees.sales_man.leads') ? 'active' : '' }}">
+                <i class="fas fa-chart-bar"></i>
+                Leads
+            </a>
+        </li>
+        @endif
+
     </ul>
 </nav>

@@ -91,8 +91,6 @@ Route::prefix('seller')->group(function () {
         // Profile Management
         Route::get('/profile', [App\Http\Controllers\Seller\ProfileController::class, 'index'])->name('seller.profile');
         Route::put('/profile', [App\Http\Controllers\Seller\ProfileController::class, 'update'])->name('seller.profile.update');
-
-        
     });
 
     // Employee Management
@@ -132,24 +130,72 @@ Route::prefix('seller')->group(function () {
             'show' => 'orders.show',
             'update' => 'orders.update',
         ]);
-        
+
         Route::get('orders/{order}/create-invoice', [App\Http\Controllers\Seller\Employee\OrderController::class, 'createInvoice'])->name('orders.create-invoice');
         Route::post('orders/{order}/store-item', [App\Http\Controllers\Seller\Employee\OrderController::class, 'storeOrderItem'])->name('orders.store-item');
         Route::post('orders/{order}/send-invoice', [App\Http\Controllers\Seller\Employee\OrderController::class, 'sendInvoice'])->name('orders.send-invoice');
 
-        Route::get('warehouse/orders', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'index'])->name('warehouse.orders');
-        Route::post('warehouse/orders/assign-delivery', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'assignDelivery'])->name('warehouse.orders.assign-delivery');
-        Route::post('warehouse/orders/{order}/start-production', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'startProduction'])->name('warehouse.orders.start-production');
-        
-        Route::get('delivery-person/orders', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'index'])->name('delivery-person.orders');
+        Route::middleware(['auth:employee'])->group(function () {
+            // Warehouse Routes
+            Route::middleware(['auth:employee', 'employeeRole:Warehouse,Sales Manager'])->group(function () {
 
-        Route::get('delivery-person/dashboard', [App\Http\Controllers\Seller\Employee\Delivery\DeliveryPersonDashboardController::class, 'index'])->name('delivery_person.dashboard');
+                Route::get('warehouse/orders', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'index'])->name('warehouse.orders');
+                Route::post('warehouse/orders/assign-delivery', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'assignDelivery'])->name('warehouse.orders.assign-delivery');
+                Route::post('warehouse/orders/{order}/start-production', [App\Http\Controllers\Seller\Employee\WarehouseOrderController::class, 'startProduction'])->name('warehouse.orders.start-production');
+            });
 
-        Route::post('delivery-person/orders/mark-delivered', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'markDelivered'])->name('delivery-person.orders.mark-delivered');
+            // Delivery Person Routes
+            Route::middleware(['employeeRole:Delivery_boy'])->group(function () {
+                Route::get('delivery-person/orders', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'index'])->name('delivery-person.orders');
+
+                Route::get('delivery-person/dashboard', [App\Http\Controllers\Seller\Employee\Delivery\DeliveryPersonDashboardController::class, 'index'])->name('delivery_person.dashboard');
+
+                Route::post('delivery-person/orders/mark-delivered', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'markDelivered'])->name('delivery-person.orders.mark-delivered');
+            });
 
 
+            // Sales Manager Routes
+            Route::middleware(['employeeRole:Sales Manager'])->group(function () {
+                Route::get('sales-man/dashboard', [App\Http\Controllers\Seller\Employee\SalesManDashboardController::class, 'index'])->name('sales_man.dashboard');
 
+                Route::resource('sales-man/products', App\Http\Controllers\Seller\Employee\Salesman\ProductController::class)->names([
+                    'index' => 'sales_man.products.index',
+                    'create' => 'sales_man.products.create',
+                    'store' => 'sales_man.products.store',
+                    'show' => 'sales_man.products.show',
+                    'edit' => 'sales_man.products.edit',
+                    'update' => 'sales_man.products.update',
+                    'destroy' => 'sales_man.products.destroy',
+                ]);
+
+                Route::get('sales-man/products/create-bulk', [App\Http\Controllers\Seller\Employee\Salesman\ProductController::class, 'createBulkProducts'])->name('sales_man.products.createBulk');
+
+                Route::post('sales-man/products/bulk-upload', [App\Http\Controllers\Seller\Employee\Salesman\ProductController::class, 'bulkUpload'])->name('sales_man.products.bulkUpload');
+
+                Route::get('sales-man/products/{product}/show', [App\Http\Controllers\Seller\Employee\Salesman\ProductController::class, 'show'])->name('sales_man.products.show');
+
+                Route::get('sales-man/orders', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'index'])->name('sales_man.orders');
+
+                Route::get('sales-man/orders/bulk', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'bulkIndex'])->name('sales_man.orders.bulk');
+
+                Route::get('sales-man/orders/bulk/store', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'bulkIndex'])->name('sales_man.orders.bulk');
+
+                Route::get('sales-man/orders/{order}/show', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'show'])->name('sales_man.orders.show');
+
+                Route::get('sales-man/orders/{order}/print-invoice', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'printInvoice'])->name('sales_man.orders.print-invoice');
+
+                Route::get('sales-man/orders/{order}/order-split', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'orderSplit'])->name('sales_man.orders.order-split');
+
+                Route::post('sales-man/orders/{order}/order-split', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'orderSplitStore'])->name('sales_man.orders.split.store');
+
+                Route::put('sales-man/orders/{order}/update-status', [App\Http\Controllers\Seller\Employee\Salesman\OrdersController::class, 'updateStatus'])->name('sales_man.orders.update-status');
+
+                Route::get('sales-man/leads', [App\Http\Controllers\Seller\Employee\Salesman\LeadsController::class, 'index'])->name('sales_man.leads');
+            });
+        });
     });
+
+
 
     // Product Management
     Route::resource('products', App\Http\Controllers\Seller\ProductController::class)->names([

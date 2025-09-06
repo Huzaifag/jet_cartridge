@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Seller;
+namespace App\Http\Controllers\Seller\Employee\Salesman;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
@@ -9,17 +9,18 @@ use App\Models\OrderItemSplit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class OrdersController extends Controller
 {
     public function index(Request $request)
     {
         $search = $request->input('search');
         $status = $request->input('status');
+        $seller_id = auth('employee')->user()->seller_id;
 
         // null
 
         $orders = Order::with('customer')
-            ->where('seller_id', auth('seller')->user()->id)
+            ->where('seller_id', $seller_id)
             ->when($search, function ($query, $search) {
                 return $query->whereHas('customer', function ($query) use ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
@@ -32,16 +33,17 @@ class OrderController extends Controller
 
         // dd($orders->toArray());    
         // TODO: Implement order listing
-        return view('seller.orders.index', compact('orders'));
+        return view('Employees.salesman.orders.index', compact('orders'));
     }
 
     public function bulkIndex(Request $request)
     {
         $search = $request->input('search');
         $status = $request->input('status');
+        $seller_id = auth('employee')->user()->seller_id;
 
         $orders = Order::with('customer')
-            ->where('seller_id', auth('seller')->user()->id)
+            ->where('seller_id', $seller_id)
             ->whereHas('customer', function ($query) {
                 $query->role('retailer'); // only customers with retailer role
             })
@@ -55,7 +57,7 @@ class OrderController extends Controller
             })
             ->get();
 
-        return view('seller.orders.index', compact('orders'));
+        return view('Employees.salesman.orders.index', compact('orders'));
     }
 
 
@@ -63,7 +65,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('customer')->with('products')->with('orderItems')->where('seller_id', auth('seller')->user()->id)->findOrFail($id);
+        $order = Order::with('customer')->with('products')->with('orderItems')->where('seller_id', auth('employee')->user()->seller_id)->findOrFail($id);
         // want to calculate 
         $tax = 10;
         $subtotal = $order->orderItems->sum('price');
@@ -76,15 +78,15 @@ class OrderController extends Controller
         // dd($orderItems->toArray());
 
         // TODO: Implement order details view
-        return view('seller.orders.show', compact('order', 'tax', 'subtotal', 'shipping', 'total', 'orderItemsCount', 'orderItems'));
+        return view('Employees.salesman.orders.show', compact('order', 'tax', 'subtotal', 'shipping', 'total', 'orderItemsCount', 'orderItems'));
     }
 
     public function updateStatus(Request $request, $id)
     {
         $request->validate(['status' => 'required']);
-
+        $seller_id = auth('employee')->user()->seller_id;
         $order = Order::with(['customer', 'products', 'orderItems'])
-            ->where('seller_id', auth('seller')->user('seller')->id)
+            ->where('seller_id', $seller_id)
             ->findOrFail($id);
 
         // Calculate totals
@@ -103,7 +105,7 @@ class OrderController extends Controller
         // Create invoice pdf only if approved
         if ($request->status == 'approved') {
             $order->update(['status' => 'pending']);
-            $pdf = \PDF::loadView('seller.pdf.download-order-invoice', compact(
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('seller.pdf.download-order-invoice', compact(
                 'order',
                 'tax',
                 'subtotal',
@@ -121,7 +123,7 @@ class OrderController extends Controller
             $invoice_file = 'invoices/invoice_' . $order->id . '.pdf';
             $pdf->save(storage_path('app/public/' . $invoice_file));
 
-            $accountant = Employee::where('seller_id', auth('seller')->user('seller')->id)->where('position', 'Accountant')->first();
+            $accountant = Employee::where('seller_id', $seller_id)->where('position', 'Accountant')->first();
 
 
 
@@ -137,7 +139,7 @@ class OrderController extends Controller
         }
 
         return redirect()
-            ->route('seller.orders.show', $id)
+            ->back()
             ->with('success', 'Order reviewed successfully! and Send to accountant')
             ->with('invoice_file', $invoice_file); // pass file path to session
     }
@@ -146,7 +148,8 @@ class OrderController extends Controller
 
     public function printInvoice($id)
     {
-        $order = Order::with('customer')->with('products')->with('orderItems')->where('seller_id', auth('seller')->user('seller')->id)->findOrFail($id);
+        $seller_id = auth('employee')->user()->seller_id;
+        $order = Order::with('customer')->with('products')->with('orderItems')->where('seller_id', $seller_id)->findOrFail($id);
         // want to calculate 
         $tax = 10;
         $subtotal = $order->orderItems->sum('price');
@@ -177,7 +180,8 @@ class OrderController extends Controller
 
     public function orderSplit($id)
     {
-        $order = Order::with('customer')->with('products')->with('orderItems')->with('orderItemSplit')->where('seller_id', auth('seller')->user('seller')->id)->findOrFail($id);
+        $seller_id = auth('employee')->user()->seller_id;
+        $order = Order::with('customer')->with('products')->with('orderItems')->with('orderItemSplit')->where('seller_id', $seller_id)->findOrFail($id);
         // want to calculate 
         $tax = 10;
         $subtotal = $order->orderItems->sum('price');
@@ -193,7 +197,7 @@ class OrderController extends Controller
 
 
         // TODO: Implement print invoice view
-        return view('seller.orders.order-split', compact('order', 'tax', 'subtotal', 'shipping', 'total', 'orderItemsCount', 'orderItems', 'orderItemsCount', 'orderItemSplits'));
+        return view('Employees.salesman.orders.order-split', compact('order', 'tax', 'subtotal', 'shipping', 'total', 'orderItemsCount', 'orderItems', 'orderItemsCount', 'orderItemSplits'));
     }
     public function orderSplitStore(Request $request)
     {

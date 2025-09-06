@@ -2,7 +2,10 @@
 
 namespace App\Models\Seller;
 
+use App\Models\Employee;
 use App\Models\Product;
+use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -34,4 +37,19 @@ class Lead extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(Seller::class);
+    }
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

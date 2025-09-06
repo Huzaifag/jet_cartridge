@@ -36,6 +36,9 @@ class RedirectEmployeeByRole
             case 'Delivery_boy':
                 $targetRoute = 'seller.employees.delivery_person.dashboard';
                 break;
+            case 'Sales Manager':
+                $targetRoute = 'seller.employees.sales_man.dashboard';
+                break;
             default:
                 $targetRoute = 'seller.employees.dashboard';
                 break;
