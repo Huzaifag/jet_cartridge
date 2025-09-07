@@ -12,8 +12,8 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $paymentSetting = PaymentSetting::where('seller_id', auth()->user()->id)->first();
-        $twoFactorSetting = TwoFactorSetting::where('seller_id', auth()->user()->id)->first();
+        $paymentSetting = PaymentSetting::where('seller_id', auth('seller')->user()->id)->first();
+        $twoFactorSetting = TwoFactorSetting::where('seller_id', auth('seller')->user()->id)->first();
         // TODO: Implement settings page
         return view('seller.settings.index', compact('paymentSetting', 'twoFactorSetting'));
     }
@@ -32,7 +32,7 @@ class SettingsController extends Controller
                 'new_password' => 'required|min:8|confirmed',
             ]);
 
-            $user = Auth::user();
+            $user = auth('seller')->user();
 
             // Check if current password is correct
             if (!Hash::check($request->current_password, $user->password)) {
@@ -48,4 +48,4 @@ class SettingsController extends Controller
             return response()->json(['success' => false, 'message' => 'An error occurred while updating the password.' . $e->getMessage()], 500);
         }
     }
-} 
+}

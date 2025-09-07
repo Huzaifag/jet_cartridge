@@ -17,7 +17,7 @@ class TwoFactorController extends Controller
                 'method'     => 'nullable|in:sms,email,authenticator_app',
             ]);
 
-            $sellerId = Auth::id(); // assumes sellers use the default auth guard
+            $sellerId = auth('seller')->user()->id; // assumes sellers use the default auth guard
 
             $twoFactor = TwoFactorSetting::updateOrCreate(
                 ['seller_id' => $sellerId], // find by seller_id

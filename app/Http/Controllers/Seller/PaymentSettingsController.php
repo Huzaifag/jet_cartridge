@@ -21,10 +21,10 @@ class PaymentSettingsController extends Controller
         ]);
 
         // Assuming seller is logged in
-        $validated['seller_id'] = auth()->user()->id;
+        $validated['seller_id'] = auth('seller')->user()->id;
 
         $paymentSetting = PaymentSetting::firstOrCreate([
-            'seller_id' => auth()->user()->id
+            'seller_id' => $validated['seller_id']
         ], $validated);
 
         if ($paymentSetting->exists) {

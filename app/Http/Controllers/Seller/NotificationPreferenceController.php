@@ -10,7 +10,7 @@ class NotificationPreferenceController extends Controller
 {
     public function store(Request $request)
     {
-        $sellerId = auth()->user()->id;
+        $sellerId = auth('seller')->user()->id;
 
         $preferences = [
             'order_email' => $request->has('order_email'),
@@ -44,7 +44,7 @@ class NotificationPreferenceController extends Controller
 
     public function show()
     {
-        $settings = NotificationPreference::where('seller_id', auth()->user()->id)->first();
+        $settings = NotificationPreference::where('seller_id', auth('seller')->user()->id)->first();
 
         return response()->json($settings);
     }
