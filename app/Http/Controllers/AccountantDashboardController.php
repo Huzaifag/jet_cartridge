@@ -8,6 +8,6 @@ class AccountantDashboardController extends Controller
 {
     public function index()
     {
-        return view('employees.accountant.dashboard.index');
+        return view('Employees.accountant.dashboard.index');
     }
 }
