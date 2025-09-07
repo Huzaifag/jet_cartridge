@@ -110,9 +110,11 @@ Route::prefix('seller')->group(function () {
             Route::post('/{employee}/reset-password', [App\Http\Controllers\Seller\EmployeeController::class, 'resetPassword'])->name('reset-password');
         });
 
+        Route::post('/logout', [App\Http\Controllers\Seller\Employee\AuthController::class, 'logout'])->name('logout');
+
         // Employee dashboard routes
         Route::middleware('auth:employee', RedirectEmployeeByRole::class)->group(function () {
-            Route::post('/logout', [App\Http\Controllers\Seller\Employee\AuthController::class, 'logout'])->name('logout');
+
             Route::get('delivery/dashboard', [DeliveryDashboardController::class, 'index'])->name('delivery.dashboard');
             Route::get('warehouse/dashboard', [WarehouseDashboardController::class, 'index'])->name('warehouse.dashboard');
             Route::get('accountant/dashboard', [AccountantDashboardController::class, 'index'])->name('accountant.dashboard');
