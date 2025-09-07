@@ -147,13 +147,13 @@ Route::prefix('seller')->group(function () {
             });
 
             // Delivery Person Routes
-
+            Route::middleware(['employeeRole:Delivery_boy'])->group(function () {
                 Route::get('delivery-person/orders', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'index'])->name('delivery-person.orders');
 
                 Route::get('delivery-person/dashboard', [App\Http\Controllers\Seller\Employee\Delivery\DeliveryPersonDashboardController::class, 'index'])->name('delivery_person.dashboard');
 
                 Route::post('delivery-person/orders/mark-delivered', [App\Http\Controllers\Seller\Employee\DeliveryPersonOrderController::class, 'markDelivered'])->name('delivery-person.orders.mark-delivered');
-            
+            });
 
 
             // Sales Manager Routes

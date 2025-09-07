@@ -8,6 +8,6 @@ class WarehouseDashboardController extends Controller
 {
     public function index()
     {
-        return view('employees.warehouse.dashboard.index');
+        return view('Employees.warehouse.dashboard.index');
     }
 }
