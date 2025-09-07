@@ -13,7 +13,7 @@ class DeliveryBoyController extends Controller
 {
     public function index()
     {
-        $deliveryBoys = auth()->user()->deliveryBoys()->latest()->paginate();
+        $deliveryBoys = auth('seller')->user()->deliveryBoys()->latest()->paginate();
         return view('seller.delivery-boys.index', compact('deliveryBoys'));
     }
 

@@ -14,7 +14,7 @@ class AccountPersonController extends Controller
 {
     public function index()
     {
-        $accountPersons = auth()->user()->accountPersons()->latest()->paginate();
+        $accountPersons = auth('seller')->user()->accountPersons()->latest()->paginate();
         return view('seller.account-persons.index', compact('accountPersons'));
     }
 

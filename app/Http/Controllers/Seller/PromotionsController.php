@@ -11,15 +11,15 @@ class PromotionsController extends Controller
 {
     public function index()
     {
-        $promotions = Promotion::where('seller_id', auth()->user()->id)->get();
-        $products = Product::where('seller_id', auth()->user()->id)->get();
+        $promotions = Promotion::where('seller_id', auth('seller')->user()->id)->get();
+        $products = Product::where('seller_id', auth('seller')->user()->id)->get();
         return view('seller.promotions.index', compact('products','promotions'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            
+
             'title'          => 'required|string|max:255',
             'description'    => 'nullable|string',
             'discount_type'  => 'required|in:percentage,fixed,bogo',
@@ -34,7 +34,7 @@ class PromotionsController extends Controller
             'products'       => 'array',
         ]);
 
-        $validated['seller_id'] = auth()->user()->id;
+        $validated['seller_id'] = auth('seller')->user()->id;
 
         $promotion = Promotion::create($validated);
 
@@ -85,7 +85,7 @@ class PromotionsController extends Controller
     public function edit($id)
     {
         $promotion = Promotion::with('products')->findOrFail($id);
-        $allProducts = Product::where('seller_id', auth()->id())->get(); // Assuming products belong to seller
+        $allProducts = Product::where('seller_id', auth('seller')->user()->id)->get(); // Assuming products belong to seller
 
         return response()->json([
             'title' => $promotion->title,
