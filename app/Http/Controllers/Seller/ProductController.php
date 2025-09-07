@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Auth::user()->products();
+        $query = auth('seller')->user()->products();
 
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%')
@@ -50,7 +50,7 @@ class ProductController extends Controller
         return view('seller.products.create-bulk');
     }
 
-    
+
     public function create()
     {
         return view('seller.products.create');
