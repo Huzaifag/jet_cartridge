@@ -13,44 +13,45 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
 <body>
-@include('components.header')
+    @include('components.header')
 
-    <!-- Hero Section -->
+    <!--  Hero Section -->
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Global B2B Marketplace</h1>
-                    <p class="lead mb-4">Connect with verified suppliers and buyers worldwide. Get the best deals on
+                <div class="col-lg-6 hero-content">
+                    <h1 class="display-4 fw-bold mb-3">Your Gateway to Global Trade</h1>
+                    <p class="lead mb-4">Connect with verified suppliers and buyers worldwide to get the best deals on
                         bulk orders.</p>
-                    <div class="search-bar mb-4">
+
+                    <div class="search-container mb-4">
                         <div class="input-group">
-                            <input type="text" class="form-control form-control-lg"
-                                placeholder="What are you looking for?">
-                            <button class="btn btn-light px-4"><i class="fas fa-search"></i></button>
+                            <input type="text" class="form-control form-control-lg hero-search-input"
+                                placeholder="What are you looking for? (e.g., electronics, textiles, machinery)">
+                            <button class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+                        </div>
+                        <div class="popular-searches mt-2">
+                            <span class="text-light">Popular:</span>
+                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Electronics</a>
+                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Machinery</a>
+                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Textiles</a>
                         </div>
                     </div>
-                    <div class="popular-searches">
-                        <span class="text-light-50">Popular:</span>
-                        <a href="#" class="btn btn-sm btn-outline-light ms-2">Electronics</a>
-                        <a href="#" class="btn btn-sm btn-outline-light ms-2">Machinery</a>
-                        <a href="#" class="btn btn-sm btn-outline-light ms-2">Textiles</a>
-                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <img src="https://img.freepik.com/free-vector/global-business-connection-illustration_53876-17394.jpg"
-                        alt="Hero Image" class="img-fluid">
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="hero-image-wrapper">
+                        <img src="https://img.freepik.com/free-vector/global-business-connection-illustration_53876-17394.jpg"
+                            alt="Global business connections" class="img-fluid hero-image">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Categories Section -->
     <section class="container my-5">
         <h2 class="text-center mb-4">Top Categories</h2>
@@ -108,17 +109,17 @@
                 </div>
             </div>
             <div class="row g-4">
-                @foreach($featuredProducts as $product)
+                @foreach ($featuredProducts as $product)
                     <div class="col-md-4">
                         <div class="product-card card h-100 border-0 shadow-sm">
                             <div class="product-image-wrapper position-relative">
                                 <img src="{{ asset('storage/' . ($product->images[0] ?? 'products/default.jpg')) }}"
                                     class="card-img-top" alt="{{ $product->name }}"
                                     style="height: 300px; object-fit: cover;">
-                                @if($product->is_featured)
+                                @if ($product->is_featured)
                                     <span class="position-absolute top-0 start-0 m-3 badge bg-warning">Featured</span>
                                 @endif
-                                @if($product->stock_quantity > 0)
+                                @if ($product->stock_quantity > 0)
                                     <span class="position-absolute top-0 end-0 m-3 badge bg-success">In Stock</span>
                                 @endif
                             </div>
@@ -134,16 +135,15 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <small class="text-muted">Added by</small>
-                                            <a href="#"
-                                                class="text-decoration-none d-block text-primary">
+                                            <a href="#" class="text-decoration-none d-block text-primary">
                                                 {{ $product->creator->name ?? '' }}
                                             </a>
                                         </div>
                                         <div class="col text-end">
-                                            @if($product->rating)
+                                            @if ($product->rating)
                                                 <div class="rating">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        @if($i <= $product->rating)
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $product->rating)
                                                             <i class="fas fa-star text-warning"></i>
                                                         @else
                                                             <i class="far fa-star text-warning"></i>
@@ -170,7 +170,7 @@
                 @endforeach
             </div>
 
-            @if($featuredProducts->count() > 6)
+            @if ($featuredProducts->count() > 6)
                 <div class="text-center mt-5">
                     <a href="#" class="btn btn-outline-primary btn-lg">
                         View All Featured Products
@@ -214,7 +214,8 @@
                         <div class="mb-4">
                             <h6 class="mb-3">Minimum Order Quantity</h6>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="moq" id="moq1" checked>
+                                <input class="form-check-input" type="radio" name="moq" id="moq1"
+                                    checked>
                                 <label class="form-check-label" for="moq1">Any MOQ</label>
                             </div>
                             <div class="form-check">
@@ -284,7 +285,7 @@
                     </div>
 
                     <div class="row">
-                        @foreach($sellers as $seller)
+                        @foreach ($sellers as $seller)
                             <div class="col-md-6 mb-4">
                                 <div class="seller-card position-relative">
                                     <input type="checkbox" class="compare-checkbox" name="compare-seller"
@@ -321,7 +322,7 @@
                                     <div class="mb-3">
                                         <h6>Main Products</h6>
                                         <ul>
-                                            @foreach($seller['main_products'] as $product)
+                                            @foreach ($seller['main_products'] as $product)
                                                 <li>{{ $product }}</li>
                                             @endforeach
                                         </ul>
@@ -333,7 +334,8 @@
                                                 {{ $seller['contact_person_name'] }}</span><br>
                                             <span><i class="fas fa-envelope"></i>
                                                 {{ $seller['contact_person_email'] }}</span><br>
-                                            <span><i class="fas fa-phone"></i> {{ $seller['contact_person_phone'] }}</span>
+                                            <span><i class="fas fa-phone"></i>
+                                                {{ $seller['contact_person_phone'] }}</span>
                                         </div>
                                     </div>
                                     <div class="action-buttons">
@@ -697,8 +699,7 @@
                         <div class="mb-3">
                             <label class="form-label">Product Specifications*</label>
                             <textarea class="form-control" rows="4"
-                                placeholder="Enter detailed specifications, requirements, and any additional information"
-                                required></textarea>
+                                placeholder="Enter detailed specifications, requirements, and any additional information" required></textarea>
                         </div>
 
                         <!-- Attachments -->
@@ -793,11 +794,11 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var logoutForm = document.querySelector('form[action="{{ route('logout') }}"]');
             var logoutButton = logoutForm.querySelector('button[type="submit"]');
 
-            logoutButton.addEventListener('click', function (event) {
+            logoutButton.addEventListener('click', function(event) {
                 event.preventDefault();
                 logoutForm.submit();
             });
