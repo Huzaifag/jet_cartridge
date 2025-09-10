@@ -25,26 +25,42 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 hero-content">
-                    <h1 class="display-4 fw-bold mb-3">Your Gateway to Global Trade</h1>
-                    <p class="lead mb-4">Connect with verified suppliers and buyers worldwide to get the best deals on
-                        bulk orders.</p>
-
-                    <div class="search-container mb-4">
+                    <h1>Your Gateway to Global Trade Excellence</h1>
+                    <p>Connect with verified suppliers and buyers worldwide to secure premium deals on bulk orders with confidence and efficiency.</p>
+                    
+                    <div class="search-container">
                         <div class="input-group">
                             <input type="text" class="form-control form-control-lg hero-search-input"
                                 placeholder="What are you looking for? (e.g., electronics, textiles, machinery)">
-                            <button class="btn btn-primary search-btn"><i class="fas fa-search"></i> Search</button>
+                            <button class="btn search-btn"><i class="fas fa-search me-2"></i> Search</button>
                         </div>
-                        <div class="popular-searches mt-2">
-                            <span class="text-light">Popular:</span>
-                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Electronics</a>
-                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Machinery</a>
-                            <a href="#" class="btn btn-sm btn-outline-light ms-2">Textiles</a>
+                        <div class="popular-searches mt-3">
+                            <span>Popular Searches:</span>
+                            <a href="#">Electronics</a>
+                            <a href="#">Machinery</a>
+                            <a href="#">Textiles</a>
+                            <a href="#">Raw Materials</a>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">50K+</div>
+                            <div class="stat-label">Verified Suppliers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">120+</div>
+                            <div class="stat-label">Countries</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$10B+</div>
+                            <div class="stat-label">Annual Trade</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 d-none d-lg-block">
+                <div class="col-lg-6">
                     <div class="hero-image-wrapper">
+                        <div class="hero-image-overlay"></div>
                         <img src="https://img.freepik.com/free-vector/global-business-connection-illustration_53876-17394.jpg"
                             alt="Global business connections" class="img-fluid hero-image">
                     </div>
