@@ -61,9 +61,6 @@
     </div>
 </div>
 
-<!-- bootstrap & fontawesome (use your project's versions if you prefer) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
   <div class="container">
@@ -79,38 +76,42 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Collapse: center links + right actions -->
+    <!-- Navbar collapse -->
     <div class="collapse navbar-collapse" id="mainNavbar">
-      <!-- Centered nav links -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center" id="main-nav-list" role="menu">
+
+      <!-- Main nav links -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
-        <li class="nav-item"><a class="nav-link" href="bulk-order.html">Bulk Order</a></li>
-        <li class="nav-item"><a class="nav-link" href="suppliers.html">Suppliers</a></li>
-        <li class="nav-item"><a class="nav-link" href="featured.html">Featured Products</a></li>
-        <li class="nav-item"><a class="nav-link" href="rfq.html">Submit RFQ</a></li>
-        <li class="nav-item"><a class="nav-link" href="sellers.html">Top Sellers</a></li>
-        <li class="nav-item"><a class="nav-link" href="buyer-protection.html">Buyer Protection</a></li>
+        
+        <!-- Dropdown for many links -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Explore
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="menuDropdown">
+            <li><a class="dropdown-item" href="categories.html">Categories</a></li>
+            <li><a class="dropdown-item" href="bulk-order.html">Bulk Order</a></li>
+            <li><a class="dropdown-item" href="suppliers.html">Suppliers</a></li>
+            <li><a class="dropdown-item" href="featured.html">Featured Products</a></li>
+            <li><a class="dropdown-item" href="rfq.html">Submit RFQ</a></li>
+            <li><a class="dropdown-item" href="sellers.html">Top Sellers</a></li>
+            <li><a class="dropdown-item" href="buyer-protection.html">Buyer Protection</a></li>
+          </ul>
+        </li>
       </ul>
 
       <!-- Right actions -->
       <div class="d-flex align-items-center gap-2 ms-lg-3">
-        <!-- Login (icon + full text on lg) -->
         <a href="{{ route('unified.login.form') }}" class="btn btn-outline-primary btn-sm d-flex align-items-center">
           <i class="fas fa-building me-2"></i>
           <span class="d-none d-lg-inline">Login Employee Dashboard</span>
           <span class="d-inline d-lg-none">Login</span>
         </a>
-
-        <!-- Become a seller: icon-only on small, text on large -->
-        <a href="become-seller.html" class="btn btn-outline-primary d-flex align-items-center justify-content-center
-           rounded-pill px-3 py-1">
+        <a href="become-seller.html" class="btn btn-outline-primary d-flex align-items-center">
           <i class="fas fa-store me-2"></i>
-          <span class="d-none d-lg-inline">Become a Seller</span>
+          <span class="d-none d-md-inline">Become a Seller</span>
         </a>
-
-        <!-- Help (icon + short text on small if needed) -->
-        <a href="help-center.html" class="nav-link d-flex align-items-center mb-0 ms-2">
+        <a href="help-center.html" class="nav-link d-flex align-items-center">
           <i class="fas fa-question-circle me-1"></i>
           <span class="d-none d-sm-inline">Help</span>
         </a>
@@ -119,36 +120,4 @@
   </div>
 </nav>
 
-<!-- small custom styles to prevent wrap and allow horizontal scroll on narrow devices -->
-<style>
-  /* prevent links from wrapping and allow touch horizontal scroll when collapsed */
-  #main-nav-list {
-    gap: 0.25rem;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-  #main-nav-list .nav-link {
-    white-space: nowrap;
-    padding: .45rem .7rem;
-  }
-
-  /* smaller paddings for very small screens */
-  @media (max-width: 420px) {
-    .navbar-brand img { height: 34px; }
-    .navbar .btn { font-size: .85rem; padding: .35rem .6rem; }
-  }
-
-  /* make the toggler icon visible if default styles are overridden */
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280,0,0,0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
-
-  /* optional: hide horizontal scrollbar in desktop (still scrollable on touch) */
-  #main-nav-list::-webkit-scrollbar { height: 6px; }
-  #main-nav-list::-webkit-scrollbar-thumb { border-radius: 6px; background: rgba(0,0,0,0.12); }
-</style>
-
-<!-- Required bootstrap js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
