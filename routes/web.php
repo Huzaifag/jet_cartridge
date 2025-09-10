@@ -16,7 +16,15 @@ use App\Http\Middleware\CheckEmployeeRole;
 use App\Http\Middleware\RedirectEmployeeByRole;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\Seller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
+
+
+Route::get('/optimize', function () {
+    Artisan::call('optimize');
+    return "Application Optimized!";
+});
+
 
 // Route::get('/fix-seller-slugs', function () {
 //     $sellers = Seller::all();
