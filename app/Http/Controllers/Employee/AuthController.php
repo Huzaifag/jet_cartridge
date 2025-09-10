@@ -12,11 +12,17 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (auth('seller')->check() || auth('employee')->check()) {
+            return redirect('/');
+        }
         return view('employees.auth.login');
     }
 
     public function login(Request $request)
     {
+        if (auth('seller')->check() || auth('employee')->check()) {
+            return redirect('/');
+        }
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'

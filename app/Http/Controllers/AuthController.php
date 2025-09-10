@@ -16,6 +16,9 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        if (auth('seller')->check() || auth('employee')->check()) {
+            return redirect('/');
+        }
         return view('auth.login');
     }
 
