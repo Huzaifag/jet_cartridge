@@ -16,6 +16,9 @@ class AuthController extends Controller
     // Other methods for Employee authentication can be added here
     public function showLoginForm()
     {
+        if (auth('seller')->check() || auth('employee')->check()) {
+            return redirect('/');
+        }
         return view('Employees.auth.login');
     }
     public function login(Request $request)
@@ -25,6 +28,10 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
+
+        if (auth('seller')->check() || auth('employee')->check()) {
+            return redirect('/');
+        }
 
         // Attempt to log the user in
         if (auth()->guard('employee')->attempt($request->only('email', 'password'), $request->filled('remember'))) {
