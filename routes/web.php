@@ -213,8 +213,10 @@ Route::prefix('seller')->group(function () {
 
 
     Route::post('products/bulk-upload', [App\Http\Controllers\Seller\ProductController::class, 'bulkUpload'])->name('seller.products.bulkUpload');
-
-
+    
+    // Bulk delete products
+    Route::post('products/bulk-delete', [App\Http\Controllers\Seller\ProductController::class, 'bulkDelete'])
+        ->name('seller.products.bulk-delete');
 
 
 
