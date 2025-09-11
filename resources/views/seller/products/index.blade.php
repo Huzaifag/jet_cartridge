@@ -1,6 +1,62 @@
 @extends('seller.layouts.app')
 
 @section('content')
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        const selectedIdsInput = document.getElementById('selectedIds');
+        
+        // Select/Deselect all checkboxes
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateBulkDeleteButton();
+            });
+        }
+        
+        // Update select all checkbox when individual checkboxes are clicked
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = allChecked;
+                }
+                updateBulkDeleteButton();
+            });
+        });
+        
+        // Update the bulk delete button state and selected IDs
+        function updateBulkDeleteButton() {
+            const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+            if (selectedCheckboxes.length > 0) {
+                bulkDeleteBtn.style.display = 'inline-block';
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                selectedIdsInput.value = JSON.stringify(selectedIds);
+            } else {
+                bulkDeleteBtn.style.display = 'none';
+                selectedIdsInput.value = '';
+            }
+        }
+        
+        // Confirm before bulk delete
+        const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+        if (bulkDeleteForm) {
+            bulkDeleteForm.addEventListener('submit', function(e) {
+                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+                if (!confirm(`Are you sure you want to delete ${selectedCount} selected product(s)?`)) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+@endpush
     <div class="container-fluid py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">My Products</h2>
@@ -159,10 +215,23 @@
                 </div>
 
                 @if($products->count() > 0)
+                    <form id="bulkDeleteForm" action="{{ route('seller.products.bulk-delete') }}" method="POST" class="mb-3">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="selected_ids" id="selectedIds">
+                        <button type="submit" id="bulkDeleteBtn" class="btn btn-danger mb-3" style="display: none;">
+                            <i class="fas fa-trash me-2"></i>Delete Selected
+                        </button>
+                    </form>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th width="40">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                        </div>
+                                    </th>
                                     <th>ID</th>
                                     <th>Image</th>
                                     <th>Name</th>
@@ -175,6 +244,11 @@
                             <tbody>
                                 @foreach($products as $product)
                                     <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input row-checkbox" type="checkbox" name="selected_products[]" value="{{ $product->id }}">
+                                            </div>
+                                        </td>
                                         <td>{{ $product->id }}</td>
                                         <td>
                                             @if($product->image)

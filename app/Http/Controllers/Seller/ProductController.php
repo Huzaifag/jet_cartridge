@@ -50,6 +50,34 @@ class ProductController extends Controller
         return view('seller.products.create-bulk');
     }
 
+    /**
+     * Delete multiple products at once
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkDelete(Request $request)
+    {
+        $request->validate([
+            'selected_ids' => 'required|string',
+        ]);
+
+        $ids = json_decode($request->selected_ids, true);
+        
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->back()->with('error', 'No products selected for deletion.');
+        }
+
+        // Only delete products that belong to the authenticated seller
+        $deleted = auth('seller')->user()->products()->whereIn('id', $ids)->delete();
+
+        if ($deleted > 0) {
+            return redirect()->route('seller.products.index')
+                ->with('success', $deleted . ' product(s) have been deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'No products were deleted.');
+    }
 
     public function create()
     {

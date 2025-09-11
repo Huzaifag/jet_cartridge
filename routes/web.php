@@ -26,17 +26,6 @@ Route::get('/optimize', function () {
 });
 
 
-// Route::get('/fix-seller-slugs', function () {
-//     $sellers = Seller::all();
-
-//     foreach ($sellers as $seller) {
-//         $seller->slug = Str::slug($seller->company_name);
-//         $seller->save();
-//     }
-
-//     return "Slugs updated for all sellers!";
-// });
-
 
 Route::get('/temp', function () {
     return view('seller.products.create-bulk');
@@ -395,34 +384,3 @@ Route::prefix('delivery-boy')->name('delivery-boy.')->group(function () {
     });
 });
 
-// // Account Person Routes
-// Route::prefix('account-person')->name('account-person.')->group(function () {
-//     Route::middleware('guest:account-person')->group(function () {
-//         Route::get('login', [App\Http\Controllers\AccountPerson\Auth\LoginController::class, 'showLoginForm'])->name('login');
-//         Route::post('login', [App\Http\Controllers\AccountPerson\Auth\LoginController::class, 'login'])->name('login.submit');
-//         Route::get('forgot-password', [App\Http\Controllers\AccountPerson\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-//         Route::post('forgot-password', [App\Http\Controllers\AccountPerson\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-//         Route::get('reset-password/{token}', [App\Http\Controllers\AccountPerson\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-//         Route::post('reset-password', [App\Http\Controllers\AccountPerson\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
-//     });
-
-//     Route::middleware('auth:account-person')->group(function () {
-//         // Profile Completion Routes
-//         Route::get('complete-profile', [App\Http\Controllers\AccountPerson\ProfileController::class, 'showCompleteProfile'])->name('complete-profile');
-//         Route::post('complete-profile', [App\Http\Controllers\AccountPerson\ProfileController::class, 'completeProfile'])->name('complete-profile.submit');
-
-//         Route::middleware([\App\Http\Middleware\CheckProfileCompletion::class])->group(function () {
-//             Route::get('dashboard', [App\Http\Controllers\AccountPerson\DashboardController::class, 'index'])->name('dashboard');
-//             Route::get('profile', [App\Http\Controllers\AccountPerson\ProfileController::class, 'index'])->name('profile');
-//             Route::put('profile', [App\Http\Controllers\AccountPerson\ProfileController::class, 'update'])->name('profile.update');
-
-//             // Transaction Routes
-//             Route::get('transactions', [App\Http\Controllers\AccountPerson\TransactionController::class, 'index'])->name('transactions.index');
-
-//             // Report Routes
-//             Route::get('reports', [App\Http\Controllers\AccountPerson\ReportController::class, 'index'])->name('reports.index');
-
-//             Route::post('logout', [App\Http\Controllers\AccountPerson\Auth\LoginController::class, 'logout'])->name('logout');
-//         });
-//     });
-// });
