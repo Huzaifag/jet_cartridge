@@ -11,6 +11,8 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Seller\PromotionsController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\InvoicesController;
 use App\Http\Controllers\WarehouseDashboardController;
 use App\Http\Middleware\CheckEmployeeRole;
 use App\Http\Middleware\RedirectEmployeeByRole;
@@ -18,6 +20,8 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+
 
 
 Route::get('/optimize', function () {
@@ -33,6 +37,8 @@ Route::get('/temp', function () {
 
 // Frontend routes
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+
 // Frontend routes
 // Route::get('/seller/{slug}', [FrontendController::class, 'seller'])->name('select.seller');
 Route::get('/manufacturers', [ManufacturerController::class, 'index'])->name('manufacturers');
@@ -62,6 +68,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+// Web routes with session handling
+Route::middleware('web')->group(function () {
+    // Auth routes
+    Route::middleware('auth')->group(function () {
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::get('/cart/item/{item}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+        Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('addToCart');
+        Route::post('/order/{cart}', [CartController::class, 'order'])->name('order');
+
+        Route::get('/customer-invoices', [InvoicesController::class, 'index'])->name('invoices.index');
+        Route::get('/customer-invoices/{id}/dowload', [InvoicesController::class, 'download'])->name('invoice.download');
+        Route::post('/customer-invoices/{id}/pay', [InvoicesController::class, 'pay'])->name('invoice.pay');
+    });
+});
+
 // Unified Login Routes
 Route::get('/unified-login', [App\Http\Controllers\UnifiedLoginController::class, 'showLoginForm'])->name('unified.login.form');
 Route::post('/unified-login', [App\Http\Controllers\UnifiedLoginController::class, 'login'])->name('unified.login');
@@ -88,6 +109,9 @@ Route::prefix('seller')->group(function () {
         // Profile Management
         Route::get('/profile', [App\Http\Controllers\Seller\ProfileController::class, 'index'])->name('seller.profile');
         Route::put('/profile', [App\Http\Controllers\Seller\ProfileController::class, 'update'])->name('seller.profile.update');
+        // Bulk delete products
+        Route::delete('products/bulk-delete', [App\Http\Controllers\Seller\ProductController::class, 'bulkDelete'])
+        ->name('seller.products.bulk-delete');
     });
 
     // Employee Management
@@ -197,26 +221,26 @@ Route::prefix('seller')->group(function () {
 
 
     // Product Management
-    Route::resource('products', App\Http\Controllers\Seller\ProductController::class)->names([
-        'index' => 'seller.products.index',
-        'create' => 'seller.products.create',
-        'store' => 'seller.products.store',
-        'show' => 'seller.products.show',
-        'edit' => 'seller.products.edit',
-        'update' => 'seller.products.update',
-        'destroy' => 'seller.products.destroy',
-    ]);
+    Route::middleware(['auth:seller'])->group(function () {
+        Route::resource('products', App\Http\Controllers\Seller\ProductController::class)->names([
+            'index' => 'seller.products.index',
+            'create' => 'seller.products.create',
+            'store' => 'seller.products.store',
+            'show' => 'seller.products.show',
+            'edit' => 'seller.products.edit',
+            'update' => 'seller.products.update',
+            'destroy' => 'seller.products.destroy',
+        ]);
 
-    Route::get('create-bulk', function () {
-        return view('seller.products.create-bulk');
-    })->name('seller.products.createBulk');
+        Route::get('create-bulk', function () {
+            return view('seller.products.create-bulk');
+        })->name('seller.products.createBulk');
+
+        Route::post('products/bulk-upload', [App\Http\Controllers\Seller\ProductController::class, 'bulkUpload'])
+            ->name('seller.products.bulkUpload');
 
 
-    Route::post('products/bulk-upload', [App\Http\Controllers\Seller\ProductController::class, 'bulkUpload'])->name('seller.products.bulkUpload');
-    
-    // Bulk delete products
-    Route::post('products/bulk-delete', [App\Http\Controllers\Seller\ProductController::class, 'bulkDelete'])
-        ->name('seller.products.bulk-delete');
+    });
 
 
 
@@ -267,6 +291,8 @@ Route::prefix('seller')->group(function () {
 
     Route::get('order/bulks', [App\Http\Controllers\Seller\OrderController::class, 'bulkIndex'])
         ->name('seller.orders.bulkIndex');
+        Route::get('order/track', [App\Http\Controllers\Seller\OrderController::class, 'trackIndex'])
+        ->name('seller.orders.track.index');
 
 
 

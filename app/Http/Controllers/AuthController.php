@@ -11,12 +11,13 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
-        if (auth('seller')->check() || auth('employee')->check()) {
+        if (auth()->check()) {
             return redirect('/');
         }
         return view('auth.login');
@@ -41,6 +42,9 @@ class AuthController extends Controller
 
     public function showRegister()
     {
+        if (auth()->check()) {
+            return redirect('/');
+        }
         return view('auth.register');
     }
 
@@ -48,39 +52,38 @@ class AuthController extends Controller
     {
         try {
             // Validate the request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-                'role' => 'required|in:user',
-                'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'role' => 'required',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
 
             // Start a database transaction
             \DB::beginTransaction();
 
             try {
                 // Create the user first
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-                    'role' => 'user'
-        ]);
+                $user = User::create([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make($validated['password']),
+                ]);
 
                 // Handle profile picture upload
-        if ($request->hasFile('profile_picture')) {
+                if ($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');
-                    
+
                     // Make sure the storage directory exists
                     Storage::disk('public')->makeDirectory('profile_pictures');
-                    
+
                     // Generate a unique filename
                     $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-                    
+
                     // Store the file
                     $path = $file->storeAs('profile_pictures', $filename, 'public');
-                    
+
                     if (!$path) {
                         throw new \Exception('Failed to upload profile picture.');
                     }
@@ -88,16 +91,32 @@ class AuthController extends Controller
                     // Update user with profile picture path
                     $user->profile_picture = $filename;
                     $user->save();
-        }
+                }
 
+                
+                // Create the role if it doesn't exist
+                if (!Role::where('name', $validated['role'])->exists()) {
+                    $role = Role::create(['name' => $validated['role']]);
+                } else {
+                    $role = Role::where('name', $validated['role'])->first();
+                }
+                
+                // Assign the user role
+                $user->assignRole($role);
+                
+
+
+                
+                // Assign the user role
+                $user->assignRole($validated['role']);
+                
                 // Commit the transaction
                 \DB::commit();
 
                 // Log the user in
-        Auth::login($user);
+                Auth::login($user);
 
                 return redirect('/')->with('success', 'Registration successful! Welcome to our platform.');
-
             } catch (\Exception $e) {
                 // Roll back the transaction
                 \DB::rollBack();
@@ -110,7 +129,6 @@ class AuthController extends Controller
                 Log::error('Registration failed during transaction: ' . $e->getMessage());
                 throw $e;
             }
-
         } catch (\Exception $e) {
             Log::error('Registration failed: ' . $e->getMessage());
             Log::error('Stack trace: ' . $e->getTraceAsString());
@@ -180,4 +198,4 @@ class AuthController extends Controller
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
-} 
+}

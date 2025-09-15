@@ -14,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(OrderItemSeeder::class);
+        // First seed roles and permissions
+        $this->call([
+            RolePermissionSeeder::class,
+            OrderItemSeeder::class,
+        ]);
+        
+        // Clear the permission cache
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
     }
 }

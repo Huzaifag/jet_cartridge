@@ -576,7 +576,7 @@
                         <input type="text" placeholder="Search orders...">
                     </div>
                 </div>
-                <div class="table-responsive" style="overflow-y: auto; max-width: 900px;">
+                <div class="table-responsive" style="overflow-y: auto; max-width: 1100px;">
                     <table>
                         <thead>
                             <tr>

@@ -61,6 +61,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('seller.orders.track.index') }}"
+                class="nav-link {{ request()->routeIs('seller.orders.track') ? 'active' : '' }}">
+                <i class="fas fa-map-marker-alt"></i>
+                Orders Track
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('seller.leads') }}"
                 class="nav-link {{ request()->routeIs('seller.leads') ? 'active' : '' }}">
                 <i class="fas fa-chart-bar"></i>

@@ -85,7 +85,7 @@ class WarehouseOrderController extends Controller
 
         } catch (\Exception $e) {
             \Log::error('Error starting production: ' . $e->getMessage());
-            return redirect()->route('warehouse.orders')->with('error', 'Failed to start production. Please try again.' . $e->getMessage());
+            return back()->with('error', 'Failed to start production. Please try again.' . $e->getMessage());
         }
     }
 

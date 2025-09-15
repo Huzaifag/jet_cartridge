@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -34,6 +35,8 @@ class EmployeeController extends Controller
                 'permissions.*' => 'string|in:manage_products,manage_orders,view_analytics'
             ]);
 
+            
+
             // Ensure permissions is an array
             $validated['permissions'] = $validated['permissions'] ?? [];
 
@@ -46,6 +49,10 @@ class EmployeeController extends Controller
                 'permissions' => $validated['permissions'],
                 'is_active' => true
             ]);
+
+            Role::firstOrCreate(['name' => $validated['position'], 'guard_name' => 'employee']);
+
+            $employee->assignRole($validated['position']);
 
             try {
                 // Send email with login credentials

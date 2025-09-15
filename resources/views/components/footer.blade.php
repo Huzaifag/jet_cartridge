@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-dark text-light py-5 mt-5">
+<footer class="bg-dark text-light py-5">
     <div class="container">
         <div class="row g-4">
             <div class="col-md-3">
@@ -41,3 +41,4 @@
         </div>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

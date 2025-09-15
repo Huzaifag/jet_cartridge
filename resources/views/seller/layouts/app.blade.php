@@ -213,6 +213,113 @@
             </div>
         </div>
     </div>
+
+    <!-- Order Tracking Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order #ORD-2023-105 Tracking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- Order Timeline -->
+                        <div class="tracking-timeline">
+                            <div class="timeline-progress">
+                                <div class="progress-bar" style="width: 60%;"></div>
+                            </div>
+                            <div class="timeline-steps">
+                                <div class="timeline-step step-completed">
+                                    <div class="step-icon">
+                                        <i class="fas fa-receipt"></i>
+                                    </div>
+                                    <div class="step-title">Order Placed</div>
+                                    <div class="step-date">Oct 15, 2023</div>
+                                </div>
+                                <div class="timeline-step step-completed">
+                                    <div class="step-icon">
+                                        <i class="fas fa-calculator"></i>
+                                    </div>
+                                    <div class="step-title">With Accountant</div>
+                                    <div class="step-date">Oct 16, 2023</div>
+                                </div>
+                                <div class="timeline-step step-completed">
+                                    <div class="step-icon">
+                                        <i class="fas fa-file-invoice"></i>
+                                    </div>
+                                    <div class="step-title">Invoice Stage</div>
+                                    <div class="step-date">Oct 18, 2023</div>
+                                </div>
+                                <div class="timeline-step step-active">
+                                    <div class="step-icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <div class="step-title">In Production</div>
+                                    <div class="step-date">In progress</div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="step-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="step-title">Delivery</div>
+                                    <div class="step-date">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Information -->
+                        <div class="delivery-info">
+                            <h6><i class="fas fa-truck me-2"></i>Delivery Information</h6>
+                            <p class="mb-1">Estimated Delivery: <strong>Nov 5, 2023</strong></p>
+                            <p class="mb-0">Carrier: <strong>GlobalExpress Logistics</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <!-- Order Summary -->
+                        <div class="order-details">
+                            <h6 class="mb-3">Order Summary</h6>
+                            <div class="detail-row">
+                                <span class="detail-label">Order ID:</span>
+                                <span class="detail-value">#ORD-2023-105</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Order Date:</span>
+                                <span class="detail-value">Oct 15, 2023</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value"><span class="order-status status-production">In Production</span></span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Seller:</span>
+                                <span class="detail-value">AudioTech Manufacturers</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Items:</span>
+                                <span class="detail-value">2</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Total Amount:</span>
+                                <span class="detail-value">$897.50</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Support Information -->
+                        <div class="mt-3">
+                            <h6>Need Help?</h6>
+                            <p class="small">Contact our support team for assistance with your order.</p>
+                            <button class="btn btn-outline-primary w-100">
+                                <i class="fas fa-headset me-1"></i> Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
     <!-- jQuery -->
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>

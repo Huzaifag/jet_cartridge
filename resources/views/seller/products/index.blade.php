@@ -1,62 +1,62 @@
 @extends('seller.layouts.app')
 
 @section('content')
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const checkboxes = document.querySelectorAll('.row-checkbox');
-        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
-        const selectedIdsInput = document.getElementById('selectedIds');
-        
-        // Select/Deselect all checkboxes
-        if (selectAllCheckbox) {
-            selectAllCheckbox.addEventListener('change', function() {
-                const isChecked = this.checked;
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = isChecked;
-                });
-                updateBulkDeleteButton();
-            });
-        }
-        
-        // Update select all checkbox when individual checkboxes are clicked
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const selectAllCheckbox = document.getElementById('selectAll');
+                const checkboxes = document.querySelectorAll('.row-checkbox');
+                const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+                const selectedIdsInput = document.getElementById('selectedIds');
+
+                // Select/Deselect all checkboxes
                 if (selectAllCheckbox) {
-                    selectAllCheckbox.checked = allChecked;
+                    selectAllCheckbox.addEventListener('change', function() {
+                        const isChecked = this.checked;
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = isChecked;
+                        });
+                        updateBulkDeleteButton();
+                    });
                 }
-                updateBulkDeleteButton();
-            });
-        });
-        
-        // Update the bulk delete button state and selected IDs
-        function updateBulkDeleteButton() {
-            const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
-            if (selectedCheckboxes.length > 0) {
-                bulkDeleteBtn.style.display = 'inline-block';
-                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                selectedIdsInput.value = JSON.stringify(selectedIds);
-            } else {
-                bulkDeleteBtn.style.display = 'none';
-                selectedIdsInput.value = '';
-            }
-        }
-        
-        // Confirm before bulk delete
-        const bulkDeleteForm = document.getElementById('bulkDeleteForm');
-        if (bulkDeleteForm) {
-            bulkDeleteForm.addEventListener('submit', function(e) {
-                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
-                if (!confirm(`Are you sure you want to delete ${selectedCount} selected product(s)?`)) {
-                    e.preventDefault();
+
+                // Update select all checkbox when individual checkboxes are clicked
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                        if (selectAllCheckbox) {
+                            selectAllCheckbox.checked = allChecked;
+                        }
+                        updateBulkDeleteButton();
+                    });
+                });
+
+                // Update the bulk delete button state and selected IDs
+                function updateBulkDeleteButton() {
+                    const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                    if (selectedCheckboxes.length > 0) {
+                        bulkDeleteBtn.style.display = 'inline-block';
+                        const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                        selectedIdsInput.value = JSON.stringify(selectedIds);
+                    } else {
+                        bulkDeleteBtn.style.display = 'none';
+                        selectedIdsInput.value = '';
+                    }
+                }
+
+                // Confirm before bulk delete
+                const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+                if (bulkDeleteForm) {
+                    bulkDeleteForm.addEventListener('submit', function(e) {
+                        const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+                        if (!confirm(`Are you sure you want to delete ${selectedCount} selected product(s)?`)) {
+                            e.preventDefault();
+                        }
+                    });
                 }
             });
-        }
-    });
-</script>
-@endpush
+        </script>
+    @endpush
     <div class="container-fluid py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">My Products</h2>
@@ -70,14 +70,14 @@
             </div>
         </div>
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -129,8 +129,8 @@
                             <div class="col-md-3">
                                 <div class="search-form">
                                     <i class="fas fa-search"></i>
-                                    <input type="text" class="form-control" name="search" placeholder="Search products..."
-                                        value="{{ request('search') }}">
+                                    <input type="text" class="form-control" name="search"
+                                        placeholder="Search products..." value="{{ request('search') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -138,31 +138,42 @@
                                     <option value="">All Status</option>
                                     <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
                                     </option>
-                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
+                                        Inactive
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" name="stock_range">
                                     <option value="">All Stock Range</option>
-                                    <option value="1-10" {{ request('stock_range') == '1-10' ? 'selected' : '' }}>1-10</option>
-                                    <option value="11-50" {{ request('stock_range') == '11-50' ? 'selected' : '' }}>11-50</option>
-                                    <option value="51-200" {{ request('stock_range') == '51-200' ? 'selected' : '' }}>51-200</option>
-                                    <option value="201-500" {{ request('stock_range') == '201-500' ? 'selected' : '' }}>201-500</option>
-                                    <option value="500+" {{ request('stock_range') == '500+' ? 'selected' : '' }}>500+</option>
+                                    <option value="1-10" {{ request('stock_range') == '1-10' ? 'selected' : '' }}>1-10
+                                    </option>
+                                    <option value="11-50" {{ request('stock_range') == '11-50' ? 'selected' : '' }}>11-50
+                                    </option>
+                                    <option value="51-200" {{ request('stock_range') == '51-200' ? 'selected' : '' }}>
+                                        51-200</option>
+                                    <option value="201-500" {{ request('stock_range') == '201-500' ? 'selected' : '' }}>
+                                        201-500</option>
+                                    <option value="500+" {{ request('stock_range') == '500+' ? 'selected' : '' }}>500+
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" name="price_range">
                                     <option value="">All Price Range</option>
-                                    <option value="0-50" {{ request('price_range') == '0-50' ? 'selected' : '' }}>0-50</option>
-                                    <option value="51-100" {{ request('price_range') == '51-100' ? 'selected' : '' }}>51-100</option>
-                                    <option value="101-200" {{ request('price_range') == '101-200' ? 'selected' : '' }}>101-200</option>
-                                    <option value="201-500" {{ request('price_range') == '201-500' ? 'selected' : '' }}>201-500</option>
-                                    <option value="501+" {{ request('price_range') == '501+' ? 'selected' : '' }}>501+</option>
+                                    <option value="0-50" {{ request('price_range') == '0-50' ? 'selected' : '' }}>0-50
+                                    </option>
+                                    <option value="51-100" {{ request('price_range') == '51-100' ? 'selected' : '' }}>
+                                        51-100</option>
+                                    <option value="101-200" {{ request('price_range') == '101-200' ? 'selected' : '' }}>
+                                        101-200</option>
+                                    <option value="201-500" {{ request('price_range') == '201-500' ? 'selected' : '' }}>
+                                        201-500</option>
+                                    <option value="501+" {{ request('price_range') == '501+' ? 'selected' : '' }}>501+
+                                    </option>
                                 </select>
                             </div>
-                            
+
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12 d-flex justify-content-between">
@@ -176,9 +187,12 @@
                         </div>
 
                         <!-- Active filter tags -->
-                        @if(request()->has('search') || request()->has('status') || request()->has('stock_range') || request()->has('price_range'))
+                        @if (request()->has('search') ||
+                                request()->has('status') ||
+                                request()->has('stock_range') ||
+                                request()->has('price_range'))
                             <div class="filter-tags">
-                                @if(request('search'))
+                                @if (request('search'))
                                     <div class="filter-tag">
                                         Search: "{{ request('search') }}"
                                         <a href="{{ route('seller.products.index', array_merge(request()->except('search'), ['page' => 1])) }}"
@@ -186,7 +200,7 @@
                                     </div>
                                 @endif
 
-                                @if(request('status'))
+                                @if (request('status'))
                                     <div class="filter-tag">
                                         Status: {{ ucfirst(request('status')) }}
                                         <a href="{{ route('seller.products.index', array_merge(request()->except('status'), ['page' => 1])) }}"
@@ -194,7 +208,7 @@
                                     </div>
                                 @endif
 
-                                @if(request('stock_range'))
+                                @if (request('stock_range'))
                                     <div class="filter-tag">
                                         Stock Range: {{ request('stock_range') }}
                                         <a href="{{ route('seller.products.index', array_merge(request()->except('stock_range'), ['page' => 1])) }}"
@@ -202,7 +216,7 @@
                                     </div>
                                 @endif
 
-                                @if(request('price_range'))
+                                @if (request('price_range'))
                                     <div class="filter-tag">
                                         Price Range: {{ request('price_range') }}
                                         <a href="{{ route('seller.products.index', array_merge(request()->except('price_range'), ['page' => 1])) }}"
@@ -214,8 +228,9 @@
                     </form>
                 </div>
 
-                @if($products->count() > 0)
-                    <form id="bulkDeleteForm" action="{{ route('seller.products.bulk-delete') }}" method="POST" class="mb-3">
+                @if ($products->count() > 0)
+                    <form id="bulkDeleteForm" action="{{ route('seller.products.bulk-delete') }}" method="POST"
+                        class="mb-3">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="selected_ids" id="selectedIds">
@@ -242,21 +257,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($products as $product)
+                                @foreach ($products as $product)
                                     <tr>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input row-checkbox" type="checkbox" name="selected_products[]" value="{{ $product->id }}">
+                                                <input class="form-check-input row-checkbox" type="checkbox"
+                                                    name="selected_products[]" value="{{ $product->id }}">
                                             </div>
                                         </td>
                                         <td>{{ $product->id }}</td>
                                         <td>
-                                            @if($product->image)
-                                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                                    class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                            @php
+                                                $images = is_array($product->images) ? $product->images : json_decode($product->images, true);
+                                                $firstImage = $images[0] ?? null;
+                                            @endphp
+                                        
+                                            @if ($firstImage)
+                                                <img src="{{ asset('storage/' . $firstImage) }}"
+                                                     alt="{{ $product->name }}"
+                                                     class="img-thumbnail"
+                                                     style="width: 50px; height: 50px; object-fit: cover;">
                                             @else
                                                 <div class="bg-light d-flex align-items-center justify-content-center"
-                                                    style="width: 50px; height: 50px;">
+                                                     style="width: 50px; height: 50px;">
                                                     <i class="fas fa-image text-muted"></i>
                                                 </div>
                                             @endif
@@ -265,7 +288,8 @@
                                         <td>${{ number_format($product->price, 2) }}</td>
                                         <td>{{ $product->stock_quantity }}</td>
                                         <td>
-                                            <span class="badge bg-{{ $product->status === 'active' ? 'success' : 'warning' }}">
+                                            <span
+                                                class="badge bg-{{ $product->status === 'active' ? 'success' : 'warning' }}">
                                                 {{ ucfirst($product->status) }}
                                             </span>
                                         </td>
@@ -275,8 +299,8 @@
                                                     class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ route('seller.products.destroy', $product->id) }}" method="POST"
-                                                    class="d-inline">
+                                                <form action="{{ route('seller.products.destroy', $product->id) }}"
+                                                    method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger"
@@ -294,7 +318,7 @@
                     <div class="mt-4">
                         {{ $products->links('pagination::bootstrap-5') }}
                     </div>
-                    @else
+                @else
                     <div class="text-center py-5">
                         <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
                         <h4>No Products Found</h4>

@@ -58,6 +58,16 @@ class ProductController extends Controller
      */
     public function bulkDelete(Request $request)
     {
+        if (!Auth::guard('seller')->check()) {
+            return redirect()->route('seller.login')->with('error', 'You are not logged in as a seller');
+        }
+
+        // if (!Auth::guard('seller')->user()->hasRole('seller')) {
+        //     return redirect()->route('seller.login')->with('error', 'You are not a seller');
+        // }
+
+        // dd($request->all());
+        
         $request->validate([
             'selected_ids' => 'required|string',
         ]);
@@ -140,13 +150,18 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $this->authorize('update', $product);
+        dd('This page has to be build soon');
+        if (!Auth::guard('seller')->check()) {
+            return redirect()->route('seller.login')->with('error', 'You are not logged in as a seller');
+        }
         return view('seller.products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
-        $this->authorize('update', $product);
+        if (!Auth::guard('seller')->check()) {
+            return redirect()->route('seller.login')->with('error', 'You are not logged in as a seller');
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -201,7 +216,9 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $this->authorize('delete', $product);
+        if (!Auth::guard('seller')->check()) {
+            return redirect()->route('seller.login')->with('error', 'You are not logged in as a seller');
+        }
 
         // Delete product images
         if ($product->images) {

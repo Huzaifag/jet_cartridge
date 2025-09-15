@@ -33,6 +33,7 @@
     </style>
 </head>
 <body>
+    @include('components.message')
     <div id="app">
         @yield('content')
     </div>

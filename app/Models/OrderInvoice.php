@@ -15,6 +15,8 @@ class OrderInvoice extends Model
         'customer_id'
     ];
 
+    protected $with = ['accountant.seller', 'customer', 'order'];
+
     // Relation with Order
     public function order()
     {

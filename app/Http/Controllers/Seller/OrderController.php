@@ -211,4 +211,10 @@ class OrderController extends Controller
         return back()
             ->with('success', 'Order split created successfully!');
     }
+
+
+    public function trackIndex()
+    {
+        return view('seller.orders.track-index');
+    }
 }

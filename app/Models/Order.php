@@ -66,4 +66,8 @@ class Order extends Model
     {
         return $this->hasOne(OrderDelivery::class);
     }
+    public function statuses()
+    {
+        return $this->hasMany(OrderStatus::class);
+    }
 } 

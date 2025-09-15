@@ -15,345 +15,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <style>
-        :root {
-            --background-dark: #0a0e17;
-            --background-darker: #050811;
-            --text-light: #ffffff;
-            --primary-color: #4361ee;
-            --primary-gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-            --secondary-color: #4cc9f0;
-            --accent-color: #f72585;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.08);
-        }
 
-        .hero-section {
-            background: var(--background-dark);
-            padding: 140px 0 100px;
-            color: var(--text-light);
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Animated gradient background */
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(58, 12, 163, 0.25) 0%, rgba(11, 11, 25, 0) 70%);
-            animation: pulse 15s infinite linear;
-            z-index: 1;
-        }
-
-        .hero-section::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(135deg,
-                    rgba(67, 97, 238, 0.15) 0%,
-                    rgba(58, 12, 163, 0.15) 50%,
-                    rgba(247, 37, 133, 0.1) 100%);
-            z-index: 2;
-        }
-
-        .hero-section>.container {
-            position: relative;
-            z-index: 3;
-        }
-
-        /* Text and Headings */
-        .hero-content {
-            animation: fadeInUp 1s ease-out forwards;
-            opacity: 0;
-        }
-
-        .hero-content h1 {
-            font-size: 3.75rem;
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-content p {
-            font-size: 1.25rem;
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 90%;
-        }
-
-        /* Search Bar Styling (Enhanced Glass Morphism) */
-        .search-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-bottom: 2rem;
-        }
-
-        .search-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
-
-        .input-group {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .hero-search-input {
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            padding: 18px 24px;
-            font-size: 1.05rem;
-            flex-grow: 1;
-        }
-
-        .hero-search-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .hero-search-input:focus {
-            box-shadow: none;
-            outline: none;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .search-btn {
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            font-weight: 600;
-            padding: 18px 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.6s ease;
-        }
-
-        .search-btn:hover {
-            background: linear-gradient(135deg, #4a6cf7 0%, #3f15b3 100%);
-        }
-
-        .search-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Popular Searches */
-        .popular-searches {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .popular-searches span {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-
-        .popular-searches a {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            padding: 8px 18px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .popular-searches a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            color: #fff;
-        }
-
-        /* Hero Image */
-        .hero-image-wrapper {
-            position: relative;
-            padding: 0;
-            border-radius: 20px;
-            overflow: hidden;
-            animation: fadeInRight 1s ease-out 0.2s forwards;
-            opacity: 0;
-            transform: translateX(30px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .hero-image {
-            border-radius: 20px;
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .hero-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
-            border-radius: 20px;
-        }
-
-        /* Stats Section */
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 3rem;
-            animation: fadeInUp 1s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1) rotate(0deg);
-                opacity: 0.5;
-            }
-
-            50% {
-                transform: scale(1.1) rotate(180deg);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(1) rotate(360deg);
-                opacity: 0.5;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .hero-content p {
-                max-width: 100%;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 120px 0 80px;
-                text-align: center;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-
-            .popular-searches {
-                justify-content: center;
-            }
-
-            .hero-stats {
-                flex-wrap: wrap;
-                gap: 1.5rem;
-            }
-
-            .stat-item {
-                flex: 1;
-                min-width: 45%;
-            }
-        }
-    </style>
+    @include('frontend.assets.search')
 </head>
 
 <body>
     @include('components.header')
+    @include('components.message')
 
     <!--  Hero Section -->
     <section class="hero-section">
@@ -451,87 +119,195 @@
         </div>
     </section>
 
-    <!-- Featured Products Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-12 text-center">
-                    <h2 class="display-5 fw-bold mb-3">Featured Products</h2>
-                    <p class="text-muted lead">Discover our handpicked selection of premium products</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @foreach ($featuredProducts as $product)
-                    <div class="col-md-4">
-                        <div class="product-card card h-100 border-0 shadow-sm">
-                            <div class="product-image-wrapper position-relative">
-                                <img src="{{ asset('storage/' . ($product->images[0] ?? 'products/default.jpg')) }}"
-                                    class="card-img-top" alt="{{ $product->name }}"
-                                    style="height: 300px; object-fit: cover;">
-                                @if ($product->is_featured)
-                                    <span class="position-absolute top-0 start-0 m-3 badge bg-warning">Featured</span>
-                                @endif
-                                @if ($product->stock_quantity > 0)
-                                    <span class="position-absolute top-0 end-0 m-3 badge bg-success">In Stock</span>
-                                @endif
-                            </div>
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="card-title mb-0 text-truncate">{{ $product->name }}</h5>
-                                    <span class="text-primary fw-bold">${{ number_format($product->price, 2) }}</span>
-                                </div>
-                                <p class="card-text text-muted mb-3" style="height: 48px; overflow: hidden;">
-                                    {{ Str::limit($product->description, 100) }}
-                                </p>
-                                <div class="product-meta border-top pt-3">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <small class="text-muted">Added by</small>
-                                            <a href="#" class="text-decoration-none d-block text-primary">
-                                                {{ $product->creator->name ?? '' }}
-                                            </a>
-                                        </div>
-                                        <div class="col text-end">
-                                            @if ($product->rating)
-                                                <div class="rating">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $product->rating)
-                                                            <i class="fas fa-star text-warning"></i>
-                                                        @else
-                                                            <i class="far fa-star text-warning"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-white border-0 p-4 pt-0">
-                                <div class="d-grid gap-2">
-                                    <a href="{{ route('product.show', $product) }}" class="btn btn-primary">
-                                        <i class="fas fa-eye me-2"></i>View Details
-                                    </a>
-                                    <button class="btn btn-outline-primary">
-                                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
-                                    </button>
-                                </div>
-                            </div>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3">
+                <div class="filter-section mb-4">
+                    <h5 class="filter-title">Filters</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Price</label>
+                        <select class="form-select">
+                            <option selected>All Prices</option>
+                            <option>Low to High</option>
+                            <option>High to Low</option>
+                            <option>Under $100</option>
+                            <option>$100 - $500</option>
+                            <option>Over $500</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Product Rating</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rating4">
+                            <label class="form-check-label" for="rating4">
+                                <span class="rating">★★★★</span> & Up
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rating3">
+                            <label class="form-check-label" for="rating3">
+                                <span class="rating">★★★</span> & Up
+                            </label>
                         </div>
                     </div>
-                @endforeach
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Seller Type</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="verifiedManuf">
+                            <label class="form-check-label" for="verifiedManuf">
+                                Verified Manufacturers
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bulkOrders">
+                            <label class="form-check-label" for="bulkOrders">
+                                Bulk Order Available
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Location</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="nearest">
+                            <label class="form-check-label" for="nearest">
+                                Nearest Sellers
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100">Apply Filters</button>
+                </div>
+
+                <div class="filter-section">
+                    <h5 class="filter-title">Categories</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Electronics
+                            <span class="badge bg-primary rounded-pill">128</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Home Appliances
+                            <span class="badge bg-primary rounded-pill">76</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Machinery
+                            <span class="badge bg-primary rounded-pill">54</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Raw Materials
+                            <span class="badge bg-primary rounded-pill">42</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Apparel & Textiles
+                            <span class="badge bg-primary rounded-pill">89</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            @if ($featuredProducts->count() > 6)
-                <div class="text-center mt-5">
-                    <a href="#" class="btn btn-outline-primary btn-lg">
-                        View All Featured Products
-                        <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
+            <!-- Products Listing -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4>Featured Products</h4>
+                    <div class="d-flex">
+                        <div class="dropdown me-2">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
+                                Sort By: Recommended
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Recommended</a></li>
+                                <li><a class="dropdown-item" href="#">Newest First</a></li>
+                                <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
+                                <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            @endif
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    @foreach ($featuredProducts as $product)
+                        <div class="col">
+                            <div class="card product-card">
+                                @php
+                                    $stock = 'Out of Stock';
+                                    if ($product->stock_quantity > 0) {
+                                        $stock = 'In Stock';
+                                    }
+
+                                    $images = is_array($product->images)
+                                        ? $product->images
+                                        : json_decode($product->images, true);
+                                    $firstImage = $images[0] ?? null;
+                                @endphp
+                                <span class="user-type-badge badge bg-info">{{ $stock }}</span>
+                                <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $product->name }}"
+                                    class="card-img-top product-img" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $product->name }}</h5>
+                                    <div class="rating mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="ms-1">(128)</span>
+                                    </div>
+                                    <p class="card-text">{{ Str::limit($product->description, 100) }}</p>
+                                    <div>
+                                        <p class="product-price mb-0">${{ $product->price }}</p>
+                                        <p class="text-muted">Min. order: {{ $product->moq }} piece</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white">
+                                    <div class="btn-group w-100">
+                                        <form style="display: inline-block" action="{{ route('addToCart', $product) }}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" class="btn btn-outline-primary"><i
+                                                    class="fas fa-shopping-cart me-1"></i> Add to Cart</button>
+                                        </form>
+                                        <button class="btn btn-warning"><i class="fas fa-bolt me-1"></i> Buy
+                                            Now</button>
+                                    </div>
+                                </div>
+                                @if (!Auth::user())
+                                    <div class="login-prompt">
+                                        <div class="text-center p-3">
+                                            <i class="fas fa-lock fa-2x mb-2 text-primary"></i>
+                                            <p>Login to purchase or inquire about this product</p>
+                                            <a href="{{ route('login') }}" class="btn btn-primary">Sign In</a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination -->
+                <nav class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </section>
+    </div>
 
 
     <!-- Seller Selection for Bulk Products Section -->
